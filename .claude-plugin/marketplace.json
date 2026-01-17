@@ -57,6 +57,18 @@
       "keywords": ["lucid-agents", "deployment", "ralph-wiggum", "code-review", "testing", "railway", "github"],
       "category": "development",
       "license": "MIT"
+    },
+    {
+      "name": "autonomous-lucid",
+      "source": "./plugins/autonomous-lucid",
+      "description": "Autonomous agent factory - research a domain and generate a monorepo of 10 production Lucid Agents",
+      "version": "1.0.0",
+      "author": {
+        "name": "Daydreams AI"
+      },
+      "keywords": ["lucid-agents", "autonomous", "monorepo", "parallel", "agent-factory", "research"],
+      "category": "development",
+      "license": "MIT"
     }
   ]
 }
