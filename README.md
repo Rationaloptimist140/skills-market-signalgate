@@ -16,6 +16,7 @@ Then install the plugins you want:
 /plugin install xgate-server@daydreams-skills
 /plugin install lucid-agents-sdk@daydreams-skills
 /plugin install lucid-client-api@daydreams-skills
+/plugin install lucid-js-handlers@daydreams-skills
 /plugin install paid-agent@daydreams-skills
 /plugin install autonomous-lucid@daydreams-skills
 ```
