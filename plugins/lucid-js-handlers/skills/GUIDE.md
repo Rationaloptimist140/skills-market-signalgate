@@ -14,17 +14,18 @@ Use Claude (Claude Code, Claude Desktop, etc.) or Cursor as your coding agent.
 
 ### 2. Configure the xgate MCP
 
-Add the xgate MCP server to your AI client's MCP config. You get a **connector URL** (and optionally session token) from xgate.
+Add the xgate MCP server to your AI client's MCP config. You get the **MCP URL** and **session token** from xgate.
 
-**How to configure**:
+**Normal flow (use the xgate frontend):**
 
-1. Go to xgate (e.g. xgate.run)
-2. **Connect your wallet via SIWE** (Sign-In With Ethereum)
-3. xgate provisions a **server wallet** for you and exposes MCP tools
-   - You don't create or configure that wallet yourself
-   - It's created as part of connecting
-4. Add the xgate MCP connector URL (and auth if required) to your client's MCP settings
-   - See xgate docs for Cursor / Claude configuration
+1. Go to the **xgate frontend** (e.g. [xgate.run](https://xgate.run) or your local/dev UI).
+2. **Connect your wallet** there. The frontend runs SIWE (Sign-In With Ethereum) for you; you sign in the wallet UI (e.g. MetaMask), no curl or manual steps.
+3. xgate provisions a **server wallet** for you and exposes MCP tools. You don't create or configure that wallet yourself.
+4. The frontend gives you the **MCP URL** and **session token** (or a ready-made MCP config). Add that to your client:
+   - **Claude CLI / Claude Code:** `~/.claude.json` or project `.mcp.json` → `mcpServers.xgate` with `url` and `headers.Authorization: Bearer <token>`. Use the URL and token from xgate.
+   - **Cursor:** `~/.cursor/mcp.json` → same `url` and `Authorization` header.
+
+**If you're not using the frontend** (e.g. local or custom flow), you can run SIWE via the xgate API (start → challenge → sign → verify) and use the returned `sessionToken` and `walletSlug` to build the MCP URL and auth. Prefer the frontend when available.
 
 ### 3. Install the Skill
 
