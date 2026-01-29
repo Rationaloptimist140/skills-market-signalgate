@@ -1,0 +1,21 @@
+{
+  "name": "lucid-js-handlers",
+  "description": "Skill for creating Lucid agents with JavaScript handler code. Teaches the JS handler code contract, paymentsConfig for paid agents, optional identityConfig (ERC-8004), and how to use the create_lucid_agent MCP tool.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Daydreams AI",
+    "email": "ponderingdemocritus@protonmail.com"
+  },
+  "homepage": "https://github.com/daydreamsai/skills-market",
+  "repository": "https://github.com/daydreamsai/skills-market",
+  "license": "MIT",
+  "keywords": [
+    "lucid",
+    "agents",
+    "javascript",
+    "handlers",
+    "mcp",
+    "claude-code"
+  ],
+  "skills": "./skills"
+}
