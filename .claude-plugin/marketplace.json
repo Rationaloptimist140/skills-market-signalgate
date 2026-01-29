@@ -49,13 +49,13 @@
     {
       "name": "lucid-js-handlers",
       "source": "./plugins/lucid-js-handlers",
-      "description": "Skill for creating Lucid agents with JavaScript handler code. Teaches the JS handler contract, paymentsConfig, optional identityConfig, and the create_lucid_agent MCP tool.",
+      "description": "Create Lucid agents with inline JavaScript handler code using the create_lucid_agent MCP tool",
       "version": "1.0.0",
       "author": {
         "name": "Daydreams AI"
       },
-      "keywords": ["lucid", "agents", "javascript", "handlers", "mcp", "create_lucid_agent", "xgate"],
-      "category": "api-tools",
+      "keywords": ["lucid", "js-handlers", "create-lucid-agent", "agents", "mcp", "payments", "erc-8004"],
+      "category": "development",
       "license": "MIT"
     },
     {

@@ -99,38 +99,23 @@ Automatically activates when:
 
 ### lucid-js-handlers
 
-Skill for creating Lucid agents with JavaScript handler code. Teaches the JS handler contract, `paymentsConfig` for paid agents, optional `identityConfig` (ERC-8004), and how to use the **create_lucid_agent** MCP tool.
+Create Lucid agents with inline JavaScript handler code using the `create_lucid_agent` MCP tool. Agents are hosted on the Lucid platform (no self-hosting).
 
 **Features:**
-- JS handler code contract (`input`, return value, `usage`, timeout, `fetch` / `allowedHosts`)
-- `create_lucid_agent` MCP tool usage (slug, name, entrypoints, `inputSchema` / `outputSchema`)
-- Payment-as-auth (setup-payment + create) via xgate server wallet
-- Invoke format: `{ "input": <payload> }`
+- JS handler code contract (sandboxed runtime, input/return expectations)
+- Fetch allowlist via `handlerConfig.network.allowedHosts`
+- Timeout controls via `handlerConfig.timeoutMs`
+- PaymentsConfig requirements for paid agents
+- Optional identityConfig (ERC-8004)
 
-**How to use in Claude:**
-
-1. **Add the marketplace** (if not already added):
-   ```bash
-   /plugin marketplace add daydreamsai/skills-market
-   ```
-
-2. **Install the skill**:
-   ```bash
-   /plugin install lucid-js-handlers@daydreams-skills
-   ```
-
-3. **Configure xgate MCP** in Claude (or Cursor): connect to xgate, complete SIWE, and use the MCP URL + Bearer token. The **create_lucid_agent** tool is provided by xgate MCP.
-
-4. **Prompt Claude** to create an agent, e.g.:
-   ```
-   Use the create_lucid_agent MCP tool to create a simple echo agent. Slug: my-echo-claude, one entrypoint "echo" that returns { text: input.text }. Use valid inputSchema and outputSchema.
-   ```
-
-Claude will use the skill to write the handler and call **create_lucid_agent**. The agent is then invokable at the returned `invokeUrl`; send `{ "input": { "text": "..." } }` when invoking.
+**Usage:**
+Automatically activates when:
+- Creating Lucid agents with inline JS handlers
+- Working with `create_lucid_agent`
+- Setting paid entrypoints or identity config
 
 **Resources:**
-- [Skill + guide](plugins/lucid-js-handlers/skills/) (SKILL.md, GUIDE.md)
-- xgate MCP docs for SIWE and server wallet setup
+- [Guide](plugins/lucid-js-handlers/skills/GUIDE.md)
 
 ### paid-agent
 
