@@ -1,0 +1,5 @@
+{
+  "name": "b2a-agents",
+  "version": "1.0.0",
+  "description": "Best practices for building B2A (Business-to-Agent) agents that serve other AI agents via x402 micropayments."
+}
