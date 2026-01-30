@@ -1,0 +1,9 @@
+{
+  "name": "railway-deploy",
+  "description": "Deploy Lucid Agents to Railway with proper environment configuration",
+  "version": "1.0.0",
+  "author": { "name": "langoustine69" },
+  "license": "MIT",
+  "keywords": ["railway", "deployment", "hosting", "infrastructure"],
+  "skills": "./skills"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "trend-discovery",
+  "description": "Discover trending topics on X/Twitter and the web for agent opportunities",
+  "version": "1.0.0",
+  "author": { "name": "langoustine69" },
+  "license": "MIT",
+  "keywords": ["trends", "twitter", "discovery", "research", "topics"],
+  "skills": "./skills"
+}

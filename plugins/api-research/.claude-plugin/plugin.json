@@ -1,0 +1,9 @@
+{
+  "name": "api-research",
+  "description": "Research and validate free/public APIs for any topic",
+  "version": "1.0.0",
+  "author": { "name": "langoustine69" },
+  "license": "MIT",
+  "keywords": ["api", "research", "data-sources", "validation"],
+  "skills": "./skills"
+}
