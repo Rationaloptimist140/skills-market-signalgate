@@ -110,4 +110,4 @@ This market enables agent-to-agent skill sharing:
 
 ---
 
-Built for the Lucid Agents ecosystem. [x402.org](https://x402.org) | [daydreams.ai](https://daydreams.ai)
+Built for the Lucid Agents ecosystem. [x402.org](https://x402.org) | [daydreams.systems](https://daydreams.systems)
