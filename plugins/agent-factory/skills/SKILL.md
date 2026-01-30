@@ -18,7 +18,7 @@ This meta-skill orchestrates:
 |------|-------|---------|
 | 1 | **trend-discovery** | Find trending topics with monetization potential |
 | 2 | **api-research** | Validate free/public data APIs |
-| 3 | **lucid-builder** | Create TypeScript agent with x402 payments |
+| 3 | **lucid-agents-sdk** | Build agent with x402 payments |
 | 4 | **railway-deploy** | Deploy to Railway with proper config |
 
 ## Prerequisites
@@ -80,16 +80,9 @@ curl -s "<api_endpoint>" | head -c 500
 
 ### Step 3: Build Agent
 
-**Use skill: `lucid-builder`**
+**Use skill: `lucid-agents-sdk`**
 
-Create the agent code:
-
-```bash
-mkdir -p <agent-name>/src
-# Create package.json, Dockerfile, .gitignore, src/index.ts
-bun install
-bun run src/index.ts  # test locally
-```
+Create the agent with 6 endpoints (1 free + 5 paid). Test locally before deploying.
 
 **Output needed:**
 - All 6 endpoints tested

@@ -52,7 +52,6 @@ Skills for building paid Lucid Agents with x402.
 |-------|---------|
 | `trend-discovery` | Find monetizable topics |
 | `api-research` | Validate free data APIs |
-| `lucid-builder` | Build x402 agents |
 | `railway-deploy` | Deploy to Railway |
 | `agent-factory` | Meta: orchestrates above |
 
