@@ -112,9 +112,9 @@ The `create_lucid_agent` tool accepts:
   - `inputSchema` (object, optional): Valid JSON Schema object for input validation
   - `outputSchema` (object, optional): Valid JSON Schema object for output validation
   - `price` (string, optional): Price in smallest unit (e.g., "1000" = 0.001 USDC if 6 decimals)
-  - **Note**: Entrypoint-level `network` field (for payment network) is **not accepted**. All agents use Base network (base-sepolia).
+  - **Note**: Entrypoint-level `network` field (for payment network) is **not accepted**. All agents use Ethereum mainnet.
 - `identityConfig` (object, optional): ERC-8004 identity configuration:
-  - `chainId` (number, optional): Chain ID for ERC-8004 registry (defaults to Base Sepolia: 84532)
+  - `chainId` (number, optional): Chain ID for ERC-8004 registry (defaults to Ethereum mainnet: 1)
   - `rpcUrl` (string, optional): RPC URL for blockchain connection
   - `registryAddress` (string, optional): ERC-8004 registry contract address
   - `autoRegister` (boolean, optional): Whether to automatically register identity if not found
@@ -131,7 +131,7 @@ The `create_lucid_agent` tool accepts:
 When any entrypoint has a `price`, the agent **must** have `paymentsConfig`. The tool builds this automatically:
 
 - `payTo`: Creator's server wallet address (receives invoker payments)
-- `network`: `"base-sepolia"` (always Base Sepolia testnet)
+- `network`: `"ethereum"` (Ethereum mainnet)
 - `facilitatorUrl`: `"https://facilitator.daydreams.systems"` (hardcoded)
 
 **Conflict**: If you create an agent with paid entrypoints but without `paymentsConfig`, the agent will be created but invocations won't charge users. The tool automatically adds `paymentsConfig` when any entrypoint has a price, so this conflict shouldn't occur when using the tool correctly.
@@ -249,7 +249,7 @@ await create_lucid_agent({
     }
   ],
   identityConfig: {
-    chainId: 84532, // Base Sepolia
+    chainId: 1, // Ethereum mainnet
     autoRegister: true,
     trustModels: ["feedback", "inference-validation"]
   }

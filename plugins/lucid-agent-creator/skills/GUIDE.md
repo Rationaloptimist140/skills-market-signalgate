@@ -77,7 +77,7 @@ If the agent has paid entrypoints, the **setup fee** is paid from your **server 
 
 ### Network
 
-All agents created via MCP use **Base network** (base-sepolia testnet). The server wallet is on Base, so all agents use Base network. Entrypoint-level network fields are not accepted.
+All agents created via MCP use **Ethereum mainnet**. The server wallet is on Ethereum, so all agents use Ethereum mainnet. Entrypoint-level network fields are not accepted.
 
 ### Identity Registration
 
