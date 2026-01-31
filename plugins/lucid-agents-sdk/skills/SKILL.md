@@ -69,7 +69,7 @@ const agent = await createAgent({
   .use(identity({ config: identityFromEnv() }))
   .use(a2a())
   .build();
-```
+```text
 
 **Available Extensions:**
 - **http** - HTTP request/response handling, streaming, SSE
@@ -136,7 +136,7 @@ Keep it simple until you actually need the complexity. YAGNI (You Aren't Gonna N
 
 ## Monorepo Structure
 
-```
+```text
 /
 ├── packages/
 │   ├── core/               # Protocol-agnostic runtime
@@ -153,7 +153,7 @@ Keep it simple until you actually need the complexity. YAGNI (You Aren't Gonna N
 │   └── cli/                # CLI scaffolding tool
 ├── scripts/
 └── package.json            # Workspace config
-```
+```text
 
 ## Common Commands
 
@@ -173,7 +173,7 @@ bun run release:version
 
 # Publish packages
 bun run release:publish
-```
+```text
 
 ### Package-Level
 ```bash
@@ -187,7 +187,7 @@ bun test
 
 # Type check
 bunx tsc --noEmit
-```
+```text
 
 ## API Quick Reference
 
@@ -213,7 +213,7 @@ agent.entrypoints.add({
     return { output: { message: `Hello, ${input.name}` } };
   },
 });
-```
+```text
 
 ### Hono Adapter
 
@@ -244,7 +244,7 @@ export default {
   port: Number(process.env.PORT ?? 3000),
   fetch: app.fetch,
 };
-```
+```text
 
 ### Express Adapter
 
@@ -264,7 +264,7 @@ const { app, addEntrypoint } = await createAgentApp(agent);
 
 // Express apps need to listen on a port
 const server = app.listen(process.env.PORT ?? 3000);
-```
+```text
 
 ### TanStack Adapter
 
@@ -287,7 +287,7 @@ tanStackRuntime.addEntrypoint({ ... });
 
 // Export for TanStack routes
 export { runtime: tanStackRuntime, handlers };
-```
+```text
 
 ### Payments Extension
 
@@ -319,7 +319,7 @@ const agent = await createAgent({
     })
   )
   .build();
-```
+```text
 
 ### Analytics Extension
 
@@ -341,7 +341,7 @@ const summary = await getSummary(agent.analytics.paymentTracker, 86400000);
 
 // Export to CSV for accounting
 const csv = await exportToCSV(agent.analytics.paymentTracker);
-```
+```text
 
 ### Identity Extension
 
@@ -359,64 +359,53 @@ const agent = await createAgent({
   .build();
 
 // Identity automatically handles ERC-8004 registration
-```
+```text
 
-### A2A Extension
 
+## ERC-8004 Identity Registration
+
+> ⚠️ **CRITICAL**: Per ERC-8004 spec, `agentURI` MUST be a URL to hosted metadata, NOT inline JSON.
+
+### Quick Start
+
+1. **Host registration file** at `/.well-known/erc8004.json`
+2. **Generate agent icon** (512x512 PNG)  
+3. **Register on-chain** with the hosted URL
+
+### ❌ WRONG
 ```typescript
-import { createAgent } from '@lucid-agents/core';
-import { http } from '@lucid-agents/http';
-import { a2a } from '@lucid-agents/a2a';
-
-const agent = await createAgent({
-  name: 'my-agent',
-  version: '1.0.0',
-})
-  .use(http())
-  .use(a2a())
-  .build();
-
-// Call another agent
-const result = await agent.a2a.client.invoke(
-  'https://other-agent.com',
-  'skillId',
-  { input: 'data' }
-);
+// DO NOT pass inline JSON
+const agentURI = JSON.stringify({ name: "Agent", ... });
 ```
 
-### Streaming Entrypoints
-
+### ✅ CORRECT
 ```typescript
-addEntrypoint({
-  key: 'chat',
-  description: 'Chat with AI assistant',
-  input: z.object({ message: z.string() }),
-  streaming: true,
-  async stream(ctx, emit) {
-    const stream = await ai.chat.stream({ messages: [{ role: 'user', content: ctx.input.message }] });
-
-    for await (const chunk of stream) {
-      await emit({
-        kind: 'delta',
-        delta: chunk.delta,
-        mime: 'text/plain',
-      });
-    }
-
-    return {
-      output: { completed: true },
-      usage: { total_tokens: stream.usage.total_tokens },
-    };
-  },
-});
+// Pass URL to hosted registration file
+const agentURI = 'https://my-agent.example.com/.well-known/erc8004.json';
 ```
+
+### Registry Addresses
+
+| Network | Address |
+|---------|---------|
+| Ethereum Mainnet | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
+| Base | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
+
+📖 **Full Reference:** [ERC8004_REFERENCE.md](./references/ERC8004_REFERENCE.md)
+
+- Registration file format & required fields
+- Hosting options (web endpoint, IPFS, on-chain)
+- Icon generation with Gemini
+- Registration & update code examples
+- Agent wallet management
+- Reputation Registry feedback
 
 ## CLI Usage
 
 ### Interactive Mode
 ```bash
 bunx @lucid-agents/cli my-agent
-```
+```text
 
 ### With Adapter Selection
 ```bash
@@ -431,7 +420,7 @@ bunx @lucid-agents/cli my-agent --adapter=tanstack-ui
 
 # TanStack Headless (API only)
 bunx @lucid-agents/cli my-agent --adapter=tanstack-headless
-```
+```text
 
 ### Non-Interactive Mode
 ```bash
@@ -443,9 +432,9 @@ bunx @lucid-agents/cli my-agent \
   --AGENT_DESCRIPTION="AI-powered assistant" \
   --OPENAI_API_KEY=your_api_key_here \
   --PAYMENTS_RECEIVABLE_ADDRESS=0xYourAddress \
-  --NETWORK=ethereum \
+  --NETWORK=base-sepolia \
   --DEFAULT_PRICE=1000
-```
+```text
 
 ## Coding Standards
 
@@ -521,6 +510,131 @@ Use bun's linking feature for testing local changes:
 5. Create `AGENTS.md` with comprehensive examples
 6. Test: `bunx ./packages/cli/dist/index.js test-agent --template=my-template`
 
+## Critical Requirements
+
+### Zod v4 Required (NOT v3!)
+
+The Lucid Agents SDK requires **Zod v4** for the `toJSONSchema` function used in entrypoint schema generation.
+
+```json
+{
+  "dependencies": {
+    "zod": "^4.0.0"
+  }
+}
+```text
+
+**Common Error with Zod v3:**
+```text
+TypeError: z.toJSONSchema is not a function
+```text
+
+**Fix:** Update to Zod v4: `bun add zod@4`
+
+### Required Environment Variables
+
+When using the payments extension, these environment variables are **mandatory**:
+
+```bash
+# Your wallet address to receive payments (required)
+PAYMENTS_RECEIVABLE_ADDRESS=0xYourWalletAddress
+
+# x402 facilitator URL (required)
+FACILITATOR_URL=https://x402.org/facilitator
+
+# Network for payments (required)
+NETWORK=base  # or base-sepolia, ethereum, solana, etc.
+```text
+
+**Common Error without env vars:**
+```text
+error: Payment configuration error: PAYMENTS_RECEIVABLE_ADDRESS environment variable is not set.
+error: Payment configuration error: FACILITATOR_URL is not set.
+```text
+
+### Bun Server Export Format
+
+For Bun runtime, use this export format:
+
+```typescript
+// Correct - Bun auto-serves this
+export default {
+  port: Number(process.env.PORT ?? 3000),
+  fetch: app.fetch,
+};
+```text
+
+**Do NOT** call `Bun.serve()` explicitly - Bun's runtime auto-detects the export and serves it. Calling both causes:
+```text
+error: Failed to start server. Is port in use?
+code: "EADDRINUSE"
+```text
+
+### Minimal Working Example
+
+```typescript
+import { createAgent } from '@lucid-agents/core';
+import { http } from '@lucid-agents/http';
+import { createAgentApp } from '@lucid-agents/hono';
+import { payments, paymentsFromEnv } from '@lucid-agents/payments';
+import { z } from 'zod';  // Must be zod v4!
+
+const agent = await createAgent({
+  name: 'my-agent',
+  version: '1.0.0',
+  description: 'My agent',
+})
+  .use(http())
+  .use(payments({ config: paymentsFromEnv() }))
+  .build();
+
+const { app, addEntrypoint } = await createAgentApp(agent);
+
+addEntrypoint({
+  key: 'hello',
+  description: 'Say hello',
+  input: z.object({ name: z.string() }),
+  price: { amount: 0 },  // Free endpoint
+  handler: async (ctx) => {
+    return { output: { message: `Hello, ${ctx.input.name}!` } };
+  },
+});
+
+const port = Number(process.env.PORT ?? 3000);
+console.log(`Agent running on port ${port}`);
+
+export default { port, fetch: app.fetch };
+```text
+
+### Minimal package.json
+
+```json
+{
+  "name": "my-agent",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@lucid-agents/core": "latest",
+    "@lucid-agents/http": "latest",
+    "@lucid-agents/hono": "latest",
+    "@lucid-agents/payments": "latest",
+    "hono": "^4.0.0",
+    "zod": "^4.0.0"
+  }
+}
+```text
+
+### Entrypoint Path Convention
+
+Lucid SDK creates endpoints at:
+- **Invoke:** `POST /entrypoints/{key}/invoke`
+- **Stream:** `POST /entrypoints/{key}/stream`
+- **Health:** `GET /health`
+- **Landing:** `GET /` (HTML page)
+
 ## Troubleshooting
 
 ### "Module not found" errors
@@ -538,6 +652,15 @@ Use bun's linking feature for testing local changes:
 2. Verify all imports are resolvable
 3. Check for circular dependencies
 4. Run `bun install` again
+
+### `z.toJSONSchema is not a function`
+Update Zod to v4: `bun add zod@4`
+
+### `PAYMENTS_RECEIVABLE_ADDRESS is not set`
+Set the required environment variables (see Critical Requirements above)
+
+### `EADDRINUSE` port conflict
+Don't call `Bun.serve()` explicitly - just use `export default { port, fetch }`
 
 ## Key Files
 
