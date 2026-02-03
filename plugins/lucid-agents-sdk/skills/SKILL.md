@@ -108,6 +108,29 @@ Templates are adapter-agnostic and work with any compatible adapter.
 - **Transaction finality**: Solana (~400ms) vs EVM (12s-12min)
 - **Gas costs**: Solana (~$0.0001) vs EVM ($0.01-$10)
 
+### x402 Protocol Versions
+
+The x402 protocol has two versions with different network identifier formats:
+
+**x402 v1:**
+- Network format: simple names (`base`, `ethereum`, `solana`)
+- Used by older SDK versions
+
+**x402 v2:**
+- Network format: CAIP-2 chain IDs (`eip155:8453` for Base, `eip155:1` for Ethereum)
+- Recommended for new agents
+- Better cross-chain compatibility
+
+**Network ID Mapping:**
+| v1 Name | v2 CAIP-2 ID | Description |
+|---------|--------------|-------------|
+| `base` | `eip155:8453` | Base Mainnet |
+| `base-sepolia` | `eip155:84532` | Base Sepolia |
+| `ethereum` | `eip155:1` | Ethereum Mainnet |
+| `sepolia` | `eip155:11155111` | Ethereum Sepolia |
+
+**Important:** The Daydreams facilitator (`https://facilitator.daydreams.systems`) supports both v1 and v2 formats. Use `@lucid-agents/hono@0.7.20` or later for proper x402 v2 support on Base.
+
 ## Code Structure Principles
 
 ### 1. Single Source of Truth
@@ -531,6 +554,25 @@ TypeError: z.toJSONSchema is not a function
 
 **Fix:** Update to Zod v4: `bun add zod@4`
 
+### @lucid-agents/hono v0.7.20+ for Base x402
+
+For x402 payments on Base network, you **must** use `@lucid-agents/hono@0.7.20` or later. Earlier versions have a bug where the facilitator verifier isn't properly registered.
+
+```json
+{
+  "dependencies": {
+    "@lucid-agents/hono": "^0.7.20"
+  }
+}
+```
+
+**Common Error with older versions:**
+```text
+error: No facilitator registered for scheme: exact and network: base
+```
+
+**Fix:** Update to latest: `bun add @lucid-agents/hono@latest`
+
 ### Required Environment Variables
 
 When using the payments extension, these environment variables are **mandatory**:
@@ -540,7 +582,7 @@ When using the payments extension, these environment variables are **mandatory**
 PAYMENTS_RECEIVABLE_ADDRESS=0xYourWalletAddress
 
 # x402 facilitator URL (required)
-FACILITATOR_URL=https://x402.org/facilitator
+FACILITATOR_URL=https://facilitator.daydreams.systems
 
 # Network for payments (required)
 NETWORK=base  # or base-sepolia, ethereum, solana, etc.
