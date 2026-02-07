@@ -1,8 +1,13 @@
 {
   "name": "api-research",
   "description": "Research and validate free/public APIs for any topic",
-  "version": "1.1.0",
-  "author": { "name": "langoustine69" },
+  "version": "1.1.1",
+  "author": {
+    "name": "langoustine69",
+    "email": "master-claud@agentmail.to"
+  },
+  "homepage": "https://github.com/daydreamsai/skills-market",
+  "repository": "https://github.com/daydreamsai/skills-market",
   "license": "MIT",
   "keywords": ["api", "research", "data-sources", "validation"],
   "skills": "./skills"

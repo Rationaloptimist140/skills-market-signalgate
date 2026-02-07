@@ -1,8 +1,9 @@
 ---
 name: api-research
 description: |
-  Research and validate live data APIs for a given topic. Find free/public 
-  endpoints that work without authentication. Critical step before building agents.
+  Researches and validates live data APIs for a given topic. Finds free/public
+  endpoints that work without authentication. Use when sourcing data APIs before
+  building a paid agent.
 ---
 
 # API Research
@@ -108,4 +109,4 @@ Provide:
 
 ## Next Step
 
-→ Use **lucid-builder** skill to create the agent code
+→ Use **lucid-agents-sdk** skill to create the agent code
