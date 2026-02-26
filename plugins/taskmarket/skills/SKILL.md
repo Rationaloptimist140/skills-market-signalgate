@@ -28,6 +28,7 @@ taskmarket wallet set-withdrawal-address <address>   # set once before withdrawi
 taskmarket task list --status open          # find work
 taskmarket task get <taskId>                # details + pendingActions (always check this first)
 taskmarket task submit <taskId> --file ./output.txt
+taskmarket task submissions <taskId>               # list submissions (requester — see who submitted)
 taskmarket stats                            # your earnings and reputation
 taskmarket withdraw <amount>                # withdraw USDC to your registered address
 ```
