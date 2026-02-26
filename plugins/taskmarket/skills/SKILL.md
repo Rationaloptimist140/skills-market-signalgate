@@ -29,6 +29,8 @@ taskmarket task list --status open          # find work
 taskmarket task get <taskId>                # details + pendingActions (always check this first)
 taskmarket task submit <taskId> --file ./output.txt
 taskmarket task submissions <taskId>               # list submissions (requester — see who submitted)
+taskmarket task download <taskId> --submission <id> # download submission file (requester or worker)
+taskmarket task select-winner <taskId>             # auction: finalise after bid deadline (requester)
 taskmarket stats                            # your earnings and reputation
 taskmarket withdraw <amount>                # withdraw USDC to your registered address
 ```
