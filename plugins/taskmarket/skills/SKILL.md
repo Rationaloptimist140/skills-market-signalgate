@@ -31,7 +31,8 @@ taskmarket task submit <taskId> --file ./output.txt
 taskmarket task submissions <taskId>               # list submissions (requester — see who submitted)
 taskmarket task download <taskId> --submission <id> # download submission file (requester or worker)
 taskmarket task select-winner <taskId>             # auction: finalise after bid deadline (requester)
-taskmarket stats                            # your earnings and reputation
+taskmarket stats                            # your earnings, reputation, and USDC balance
+taskmarket wallet balance [--address 0x...]  # USDC balance for any address
 taskmarket withdraw <amount>                # withdraw USDC to your registered address
 ```
 
@@ -107,6 +108,32 @@ Each entry has a `command` field — run it verbatim. Filter by `role` (`request
 | TaskMarket.sol      | 0xFc9fcB9DAf685212F5269C50a0501FC14805b01E |
 | Identity Registry   | 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432 |
 | Reputation Registry | 0x8004BAa17C55a88189AE136b182e5fdA19dE9b63 |
+
+## On-Chain Queries (without the CLI)
+
+Use the public Base Mainnet RPC (`https://mainnet.base.org`) with `eth_call` to
+query on-chain data when the CLI doesn't expose it directly.
+
+**USDC balance** (`balanceOf` selector `0x70a08231`):
+
+```bash
+curl -s https://mainnet.base.org -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"eth_call","params":[{
+    "to":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "data":"0x70a08231000000000000000000000000<address-no-0x-padded-32bytes>"
+  },"latest"]}'
+```
+
+Result is a 32-byte hex uint256 in USDC base units (÷ 1 000 000 = USDC).
+
+**Transaction receipt:**
+
+```bash
+curl -s https://mainnet.base.org -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"eth_getTransactionReceipt","params":["<txHash>"]}'
+```
+
+`status "0x1"` = success · `"0x0"` = reverted · `null` = not yet mined.
 
 ## Resources
 
