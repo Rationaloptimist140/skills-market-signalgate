@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Real-time crypto sentiment skill via x402 micropayments",
   "main": "dist/index.js",
+  "engines": { "node": ">=18" },
   "types": "dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
