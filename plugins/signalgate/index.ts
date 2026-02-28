@@ -28,13 +28,18 @@ async function payAndFetch(url: string, ticker: string): Promise<any> {
         })
       );
 
+      const retryController = new AbortController();
+      const retryTimeout = setTimeout(() => retryController.abort(), 10000);
+
       const paidRes = await fetch(`${url}?ticker=${ticker}`, {
         headers: {
           "X-Payment": paymentHeader,
           "Content-Type": "application/json",
         },
-        signal: controller.signal,
+        signal: retryController.signal,
       });
+
+      clearTimeout(retryTimeout);
 
       if (!paidRes.ok) {
         throw new Error(`Payment failed or rejected: ${paidRes.status}`);
