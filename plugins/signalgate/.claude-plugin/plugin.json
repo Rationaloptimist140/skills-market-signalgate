@@ -2,7 +2,7 @@
   "name": "signalgate-sentiment",
   "version": "1.0.0",
   "description": "Real-time AI-powered crypto market sentiment for BTC, ETH, and SOL using x402 micropayments",
-  "author": "Rationaloptimist140",
+  "author": { "name": "Ron Wey", "url": "https://github.com/Rationaloptimist140" },
   "license": "MIT",
   "skills": ["signalgate-sentiment"],
   "payment": {
