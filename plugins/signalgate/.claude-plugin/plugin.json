@@ -1,0 +1,16 @@
+{
+  "name": "signalgate-sentiment",
+  "version": "1.0.0",
+  "description": "Real-time AI-powered crypto market sentiment for BTC, ETH, and SOL using x402 micropayments",
+  "author": "Rationaloptimist140",
+  "license": "MIT",
+  "skills": ["signalgate-sentiment"],
+  "payment": {
+    "protocol": "x402",
+    "amount": "0.05",
+    "currency": "USDC",
+    "network": "base"
+  },
+  "endpoint": "https://signalgate-web.vercel.app/api/sentiment-x402",
+  "repository": "https://github.com/Rationaloptimist140/signalgate-web"
+}
