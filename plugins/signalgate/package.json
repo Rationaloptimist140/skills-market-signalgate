@@ -1,0 +1,24 @@
+{
+  "name": "@daydreamsai/signalgate-sentiment",
+  "version": "1.0.0",
+  "description": "Real-time crypto sentiment skill via x402 micropayments",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "@lucid-agents/core": "^0.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "keywords": ["daydreams", "skill", "crypto", "sentiment", "x402", "micropayments"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rationaloptimist140/signalgate-web"
+  }
+}
