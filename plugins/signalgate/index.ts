@@ -68,7 +68,7 @@ export const signalgateSentiment = createSkill({
     confidence: z.number().min(0).max(1),
     reasoning: z.string(),
   }),
-  async execute({ ticker }) {
+  async execute({ ticker }: { ticker: "BTC" | "ETH" | "SOL" }) {
     const data = await payAndFetch(SIGNALGATE_URL, ticker);
     return {
       ticker: data.ticker,
