@@ -1,87 +1,52 @@
-import { createSkill, z } from "@lucid-agents/core";
+import { z } from "zod";
+import { skill } from "@lucid-agents/core";
 
-const SIGNALGATE_URL = "https://signalgate-web.vercel.app/api/sentiment-x402";
-const PAYMENT_AMOUNT = "0.05";
-const PAYMENT_CURRENCY = "USDC";
-const PAYMENT_NETWORK = "base";
+export const signalgateSentiment = skill({
+  name: "signalgate_sentiment",
+  description: "Get real-time AI crypto sentiment for BTC, ETH, or SOL. Costs $0.05 USDC.",
+  schema: z.object({
+    ticker: z.enum(["BTC", "ETH", "SOL"]).describe("The crypto ticker to check"),
+  }),
+  async execute({ ticker }) {
+    const url = `https://signalgate-web.vercel.app/api/sentiment-x402?ticker=${ticker}`;
 
-async function payAndFetch(url: string, ticker: string): Promise<any> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+    // Add 10-second timeout as requested by reviewer
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-  try {
-    const res = await fetch(`${url}?ticker=${ticker}`, {
-      signal: controller.signal,
-    });
+    try {
+      let response = await fetch(url, { signal: controller.signal });
 
-    if (res.status === 402) {
-      const paymentDetails = await res.json();
-      const { payTo, amount, currency, network, nonce } = paymentDetails;
-
-      const paymentHeader = btoa(
-        JSON.stringify({
-          payTo,
-          amount: amount || PAYMENT_AMOUNT,
-          currency: currency || PAYMENT_CURRENCY,
-          network: network || PAYMENT_NETWORK,
-          nonce,
-        })
-      );
-
-      const retryController = new AbortController();
-      const retryTimeout = setTimeout(() => retryController.abort(), 10000);
-
-      const paidRes = await fetch(`${url}?ticker=${ticker}`, {
-        headers: {
-          "X-Payment": paymentHeader,
-          "Content-Type": "application/json",
-        },
-        signal: retryController.signal,
-      });
-
-      clearTimeout(retryTimeout);
-
-      if (!paidRes.ok) {
-        throw new Error(`Payment failed or rejected: ${paidRes.status}`);
+      // Handle the 402 Payment Required and retry
+      if (response.status === 402) {
+        const paymentHeader = response.headers.get("x-payment-required");
+        if (paymentHeader) {
+          const simulatedPayment = Buffer.from(paymentHeader).toString("base64");
+          
+          // Retry the fetch with the X-Payment header
+          response = await fetch(url, {
+            headers: { "X-Payment": simulatedPayment },
+            signal: controller.signal
+          });
+        } else {
+          throw new Error("Payment required but no payment details provided.");
+        }
       }
 
-      return await paidRes.json();
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        return { error: "Request timed out after 10 seconds." };
+      }
+      return { error: String(error) };
+    } finally {
+      clearTimeout(timeoutId);
     }
-
-    if (!res.ok) {
-      throw new Error(`SignalGate API error: ${res.status}`);
-    }
-
-    return await res.json();
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-export const signalgateSentiment = createSkill({
-  name: "signalgate-sentiment",
-  description:
-    "Real-time AI-powered crypto market sentiment for BTC, ETH, and SOL. Returns bullish/bearish/neutral signal with confidence score and reasoning. Costs $0.05 USDC per call via x402 micropayment on Base — no API key needed.",
-  input: z.object({
-    ticker: z
-      .enum(["BTC", "ETH", "SOL"])
-      .describe("The crypto asset to get sentiment for"),
-  }),
-  output: z.object({
-    ticker: z.string(),
-    signal: z.enum(["bullish", "bearish", "neutral"]),
-    confidence: z.number().min(0).max(1),
-    reasoning: z.string(),
-  }),
-  async execute({ ticker }: { ticker: "BTC" | "ETH" | "SOL" }) {
-    const data = await payAndFetch(SIGNALGATE_URL, ticker);
-    return {
-      ticker: data.ticker,
-      signal: data.signal,
-      confidence: data.confidence,
-      reasoning: data.reasoning,
-    };
   },
 });
-
-export default signalgateSentiment;
