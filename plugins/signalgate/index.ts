@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { skill } from "@lucid-agents/core";
 
-export const signalgateSentiment = skill({
+export const signalgate_sentiment = skill({
   name: "signalgate_sentiment",
   description: "Get real-time AI crypto sentiment for BTC, ETH, or SOL. Costs $0.05 USDC.",
   schema: z.object({
