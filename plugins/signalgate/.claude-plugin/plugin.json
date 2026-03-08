@@ -1,16 +1,1 @@
-{
-  "name": "signalgate-sentiment",
-  "version": "1.0.0",
-  "description": "Real-time AI-powered crypto market sentiment for BTC, ETH, and SOL using x402 micropayments",
-  "author": { "name": "Ron Wey", "url": "https://github.com/Rationaloptimist140" },
-  "license": "MIT",
-  "skills": ["signalgate-sentiment"],
-  "payment": {
-    "protocol": "x402",
-    "amount": "0.05",
-    "currency": "USDC",
-    "network": "base"
-  },
-  "endpoint": "https://signalgate-web.vercel.app/api/sentiment-x402",
-  "repository": "https://github.com/Rationaloptimist140/signalgate-web"
-}
+ewogICJuYW1lIjogInNpZ25hbGdhdGUiLAogICJ2ZXJzaW9uIjogIjEuMC4xIiwKICAiZGVzY3JpcHRpb24iOiAiUmVhbC10aW1lIEFJLXBvd2VyZWQgY3J5cHRvIG1hcmtldCBzZW50aW1lbnQgZm9yIEJUQywgRVRILCBhbmQgU09MIHVzaW5nIHg0MDIgbWljcm9wYXltZW50cyIsCiAgImF1dGhvciI6IHsKICAgICJuYW1lIjogIlJhdGlvbmFsb3B0aW1pc3QxNDAiLAogICAgImVtYWlsIjogImNvbnRhY3RAc2lnbmFsZ2F0ZS5pbyIKICB9LAogICJsaWNlbnNlIjogIk1JVCIsCiAgImtleXdvcmRzIjogWyJsdWNpZC1hZ2VudHMiLCAiY3J5cHRvIiwgInNlbnRpbWVudCIsICJ4NDAyIiwgIm1pY3JvcGF5bWVudHMiXSwKICAic2tpbGxzIjogIi4vc2tpbGxzIiwKICAicGF5bWVudCI6IHsKICAgICJ0eXBlIjogIng0MDIiLAogICAgImFtb3VudCI6ICIwLjA1IiwKICAgICJjdXJyZW5jeSI6ICJVU0RDIiwKICAgICJuZXR3b3JrIjogImJhc2UiCiAgfQp9
